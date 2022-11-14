@@ -102,6 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4fdd66fcafb8d4994872bda45a1e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionAnimation: {fileID: 4641482506592317715, guid: 5d149dca6b05a814aa679c17bdf62215, type: 3}
+  sprite: {fileID: 6426565572364552846}
+  rb: {fileID: 2843699260051011764}
 --- !u!114 &6209669195703434853
 MonoBehaviour:
   m_ObjectHideFlags: 0
