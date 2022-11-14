@@ -47,6 +47,8 @@ public class PlayerControl : MonoBehaviour
         jumpSpeed = jumpForce;
         jumpCount++;
         //Routine de la chute
+        //On stop d'abords toutes les routines sinon si l'on réitère le jump sans lacher la toucher et qu'au meme moment on y appuye deux saut se font et sa bug
+        StopAllCoroutines();
         StartCoroutine(Jumping());
     }
 
