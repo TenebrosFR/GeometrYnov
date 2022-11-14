@@ -10,11 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2069838030200276732}
   - component: {fileID: 6426565572364552846}
+  - component: {fileID: 1375686111402670500}
   - component: {fileID: 6209669195703434853}
   - component: {fileID: 2843699260051011764}
+  - component: {fileID: 689865017774797045}
   - component: {fileID: 3525860538997843714}
   - component: {fileID: 6368732708101179565}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,6 +90,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1375686111402670500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915147345387966796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d4fdd66fcafb8d4994872bda45a1e39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6209669195703434853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,8 +122,6 @@ MonoBehaviour:
   jumpForce: 20
   fallSpeed: 5
   distanceFromGround: 0.5
-  degreesToRotateBy: 90
-  timeToRotate: 0.75
 --- !u!50 &2843699260051011764
 Rigidbody2D:
   serializedVersion: 4
@@ -131,6 +143,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!61 &689865017774797045
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915147345387966796}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.025}
+  m_EdgeRadius: 0
 --- !u!58 &3525860538997843714
 CircleCollider2D:
   m_ObjectHideFlags: 0
