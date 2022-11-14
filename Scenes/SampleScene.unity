@@ -1316,7 +1316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2069838030200276732, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.625
       objectReference: {fileID: 0}
     - target: {fileID: 2069838030200276732, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1350,9 +1350,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2843699260051011764, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2843699260051011764, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2843699260051011764, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2915147345387966796, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209669195703434853, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
+      propertyPath: jumpForce
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6209669195703434853, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
       propertyPath: timeToRotate

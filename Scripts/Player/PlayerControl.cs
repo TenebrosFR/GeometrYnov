@@ -43,7 +43,6 @@ public class PlayerControl : MonoBehaviour
         if (!IsGrounded()) return;
         //Sinon je suis "en train de sauter"
         isJumping = true;
-
         jumpSpeed = jumpForce;
         //Routine de la chute
         StartCoroutine(Jumping());
