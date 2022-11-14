@@ -1,0 +1,45 @@
+{
+    "name": "PlayerControl",
+    "maps": [
+        {
+            "name": "PlayerControls",
+            "id": "71805944-eb47-4540-8342-cfa619741bc3",
+            "actions": [
+                {
+                    "name": "Pressed",
+                    "type": "Button",
+                    "id": "180e5afd-9df2-46c8-a098-f55275b497b8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "01023f3d-b182-4272-85b9-cbf8c0ebb8cd",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0211ef9d-6d41-4f79-b175-fee4d521f563",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
