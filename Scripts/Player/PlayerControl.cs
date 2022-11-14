@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float distanceFromGround;
     private bool isJumping;
     private float jumpSpeed = 0f;
+    private int jumpCount = 0;
     private void FixedUpdate()
     {
         //Déplacement
@@ -44,6 +45,7 @@ public class PlayerControl : MonoBehaviour
         //Sinon je suis "en train de sauter"
         isJumping = true;
         jumpSpeed = jumpForce;
+        jumpCount++;
         //Routine de la chute
         StartCoroutine(Jumping());
     }
@@ -64,8 +66,11 @@ public class PlayerControl : MonoBehaviour
             //Ternaire : Si je veux sauter en boucle (input pas lacher) je re saute sinon ma valeur de saut passe a 0
             jumpSpeed = isJumping ? jumpForce : 0 ;
             //Si je veux re sauter une fois que je lui ai redonner la "force" pour sauter je le re fait tomber après
-            if(isJumping)
+            if (isJumping)
+            {
                 StartCoroutine(Jumping());
+                jumpCount++;
+            }
         }
         //Si je suis pas au sol je continue de tomber
         if (!IsGrounded())
