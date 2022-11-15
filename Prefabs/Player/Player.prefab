@@ -123,8 +123,9 @@ MonoBehaviour:
   rb: {fileID: 2843699260051011764}
   speed: 10
   jumpForce: 20
-  fallSpeed: 5
+  fallSpeed: 60
   distanceFromGround: 0.5
+  jumpSpeed: 0
 --- !u!50 &2843699260051011764
 Rigidbody2D:
   serializedVersion: 4
@@ -140,7 +141,7 @@ Rigidbody2D:
   m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 20
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

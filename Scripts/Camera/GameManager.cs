@@ -7,7 +7,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private AudioSource audioSource;
     private int deathCount = 0;
+    void Start()
+    {
+        audioSource.Play();
+    }
     private void FixedUpdate()
     {
         //Si je n'est pas de player je vais en recrée un
@@ -21,5 +26,6 @@ public class GameManager : MonoBehaviour
     {
         deathCount++;
         player = Instantiate(playerPrefab, new Vector3(0, -0.625f, 0), Quaternion.identity).transform;
+        audioSource.Play();
     }
 }

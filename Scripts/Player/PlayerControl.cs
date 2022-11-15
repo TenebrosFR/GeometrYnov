@@ -13,10 +13,21 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float fallSpeed;
     [SerializeField] private float distanceFromGround;
     private bool isJumping;
-    private float jumpSpeed = 0f;
+    public float jumpSpeed = 0f;
     private int jumpCount = 0;
     private void FixedUpdate()
     {
+        //Si je suis au sol
+        if (IsGrounded()) {
+            //Ternaire : Si je veux sauter en boucle (input pas lacher) je re saute sinon ma valeur de saut passe a 0
+            jumpSpeed = isJumping ? jumpForce : 0 ;
+            //Si je veux re sauter je compte le saut
+            if (isJumping)
+                jumpCount++;
+        }
+        //Sinon je chute
+        else 
+            jumpSpeed -= fallSpeed * Time.fixedDeltaTime;
         //Déplacement
         rb.velocity = new Vector2(speed, jumpSpeed);
         //Animation de rotation en l'air
@@ -46,36 +57,11 @@ public class PlayerControl : MonoBehaviour
         isJumping = true;
         jumpSpeed = jumpForce;
         jumpCount++;
-        //Routine de la chute
-        //On stop d'abords toutes les routines sinon si l'on réitère le jump sans lacher la toucher et qu'au meme moment on y appuye deux saut se font et sa bug
-        StopAllCoroutines();
-        StartCoroutine(Jumping());
     }
 
     //Je raycast du centre de mon cube vers le sol pour savoir si il est assez proche du sol pour dire qu'il est "grounded"
     private bool IsGrounded()
     {
         return Physics2D.Raycast(transform.position, Vector2.down, distanceFromGround + 0.05f,groundMask);
-    }
-    //Je tombe tant que je 
-    private IEnumerator Jumping()
-    {
-        yield return new WaitForSeconds(0.1f);
-        jumpSpeed -= fallSpeed;
-        //Si je suis au sol
-        if (IsGrounded())
-        {
-            //Ternaire : Si je veux sauter en boucle (input pas lacher) je re saute sinon ma valeur de saut passe a 0
-            jumpSpeed = isJumping ? jumpForce : 0 ;
-            //Si je veux re sauter une fois que je lui ai redonner la "force" pour sauter je le re fait tomber après
-            if (isJumping)
-            {
-                StartCoroutine(Jumping());
-                jumpCount++;
-            }
-        }
-        //Si je suis pas au sol je continue de tomber
-        if (!IsGrounded())
-            StartCoroutine(Jumping());
     }
 }
