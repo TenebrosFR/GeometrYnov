@@ -1,13 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private RawImage background;
     private int deathCount = 0;
     void Start()
     {
@@ -25,6 +24,7 @@ public class GameManager : MonoBehaviour
     private void respawnPlayer()
     {
         deathCount++;
+        background.uvRect = new Rect(new Vector2(0, 0),background.uvRect.size);
         player = Instantiate(playerPrefab, new Vector3(0, -0.625f, 0), Quaternion.identity).transform;
         audioSource.Play();
     }

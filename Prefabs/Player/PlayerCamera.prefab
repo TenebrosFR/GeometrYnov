@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 980, y: 472}
+  m_SizeDelta: {x: 991.33, y: 580.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6409529266512590617
 CanvasRenderer:
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 3469285245838564164}
-  speedScroll: 0.5
+  speedScroll: 0.05
 --- !u!1 &4816592323080055726
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +286,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerPrefab: {fileID: 2915147345387966796, guid: 58bfee4dee513b148b2935099f908fe4, type: 3}
   audioSource: {fileID: 15106780688703786}
+  background: {fileID: 3469285245838564164}
 --- !u!1 &8685787071643351612
 GameObject:
   m_ObjectHideFlags: 0
