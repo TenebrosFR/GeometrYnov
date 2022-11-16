@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
         //Si je n'est pas de player je vais en recrée un
         if (!player) respawnPlayer();
         //Je suit le joueur
-        gameObject.transform.position = new Vector3(player.position.x,0,-10);
+        gameObject.transform.position = new Vector3(player.position.x+4,2.5f,-10);
     }
 
     //Je rajoute 1 au compteur de mort puis respawn un player et garde la référence de sont transform
