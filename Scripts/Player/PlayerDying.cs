@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerDying : MonoBehaviour
 {
     [SerializeField] private GameObject explosionAnimation;
-    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private SpriteRenderer[] sprites;
     [SerializeField] private Rigidbody2D rb;
     //Si un élément censer me tuer rentre dans le collider enter je me tue
     private void OnTriggerEnter2D(Collider2D col)
@@ -16,7 +16,8 @@ public class PlayerDying : MonoBehaviour
     public IEnumerator Die()
     {
         Instantiate(explosionAnimation, transform.position, Quaternion.identity);
-        sprite.enabled = false;
+        foreach (var sprite in sprites)
+            sprite.enabled = false;
         rb.simulated = false;
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);

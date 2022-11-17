@@ -15,8 +15,12 @@ public class PlayerControl : MonoBehaviour
     private bool isJumping;
     public float jumpSpeed = 0f;
     private int jumpCount = 0;
+    private float time;
+
     private void FixedUpdate()
     {
+        //Pour éviter d'avoir a l'écrire avec *30 a chaque fois
+        time = 30 * Time.fixedDeltaTime;
         //Si je suis au sol
         if (IsGrounded()) {
             //Ternaire : Si je veux sauter en boucle (input pas lacher) je re saute sinon ma valeur de saut passe a 0
@@ -27,9 +31,7 @@ public class PlayerControl : MonoBehaviour
         }
         //Sinon je chute
         else 
-            jumpSpeed -= fallSpeed * Time.fixedDeltaTime;
-        //Déplacement
-        rb.velocity = new Vector2(speed, jumpSpeed);
+            jumpSpeed -= fallSpeed * time;
         //Animation de rotation en l'air
         if (!IsGrounded())
             gameObject.transform.Rotate(Vector3.back * 5);
@@ -40,6 +42,8 @@ public class PlayerControl : MonoBehaviour
             rotation.z = Mathf.Round(rotation.z / 90) * 90;
             gameObject.transform.rotation = Quaternion.Euler(rotation);
         }
+        //Déplacement
+        rb.velocity = new Vector2(speed * time, jumpSpeed * time);
     }
     //Bind sur les touches pour "sauter"
     public void OnJump(InputAction.CallbackContext context)

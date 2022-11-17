@@ -391,7 +391,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionAnimation: {fileID: 4641482506592317715, guid: 5d149dca6b05a814aa679c17bdf62215, type: 3}
-  sprite: {fileID: 6426565572364552846}
+  sprites:
+  - {fileID: 6426565572364552846}
+  - {fileID: 7741250466867860465}
+  - {fileID: 1554396297336903132}
   rb: {fileID: 2843699260051011764}
 --- !u!114 &6209669195703434853
 MonoBehaviour:
@@ -409,9 +412,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   rb: {fileID: 2843699260051011764}
-  speed: 10
-  jumpForce: 20
-  fallSpeed: 60
+  speed: 20
+  jumpForce: 30
+  fallSpeed: 3
   distanceFromGround: 0.5
   jumpSpeed: 0
 --- !u!50 &2843699260051011764
@@ -518,6 +521,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 180e5afd-9df2-46c8-a098-f55275b497b8
     m_ActionName: PlayerControls/Pressed[/Keyboard/space,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b9a58844-dd7a-49b2-acf0-7f7449cc1354
+    m_ActionName: PlayerControls/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerControls
