@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-    public static GameManager Instance { get { return _instance; } }
+    private static GameManager _GameManagerInstance;
+    public static GameManager GameManagerInstance { get { return _GameManagerInstance; } }
 
-    [SerializeField] private GameObject player;
+    private static GameObject _Playerinstance;
+    public static GameObject PlayerInstance { get { return _Playerinstance; } }
+
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private List<Coin> tookCoin;
     [SerializeField] private AudioSource audioSource;
@@ -18,15 +20,15 @@ public class GameManager : MonoBehaviour
     private int deathCount = 0;
     void Awake()
     {
-        _instance = this;
+        _GameManagerInstance = this;
         audioSource.Play();
     }
     private void FixedUpdate()
     {
         //Si je n'est pas de player je vais en recrée un
-        if (!player) restartCurrentLevel();
+        if (!_Playerinstance) restartCurrentLevel();
         //Je suit le joueur
-        gameObject.transform.position = new Vector3(player.transform.position.x+4,2.5f,-10);
+        gameObject.transform.position = new Vector3(_Playerinstance.transform.position.x+4,2.5f,-10);
     }
     //Réinitialise le niveau en cour
     private void restartCurrentLevel() {
@@ -45,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         deathCount++;
         background.uvRect = new Rect(new Vector2(0, 0),background.uvRect.size);
-        player = Instantiate(playerPrefab, new Vector3(0, -0.625f, 0), Quaternion.identity);
+        _Playerinstance = Instantiate(playerPrefab, new Vector3(0, -0.625f, 0), Quaternion.identity);
         audioSource.Play();
     }
 

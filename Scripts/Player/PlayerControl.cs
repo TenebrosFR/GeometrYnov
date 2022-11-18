@@ -16,34 +16,44 @@ public class PlayerControl : MonoBehaviour
     public float jumpSpeed = 0f;
     private int jumpCount = 0;
     private float time;
+    //Changement d'état vol / sol    
+    public string state = "cube";
+    public void ChangeState(string value) { state = value; }
+
 
     private void FixedUpdate()
     {
         //Pour éviter d'avoir a l'écrire avec *30 a chaque fois
         time = 30 * Time.fixedDeltaTime;
+        if (state == "cube") cubeMovement();
+        if (state == "ship") shipMovement();
+        //Déplacement
+        rb.velocity = new Vector2(speed * time, jumpSpeed * time);
+    }
+    private void cubeMovement() {
         //Si je suis au sol
         if (IsGrounded()) {
             //Ternaire : Si je veux sauter en boucle (input pas lacher) je re saute sinon ma valeur de saut passe a 0
-            jumpSpeed = isJumping ? jumpForce : 0 ;
+            jumpSpeed = isJumping ? jumpForce : 0;
             //Si je veux re sauter je compte le saut
             if (isJumping)
                 jumpCount++;
         }
         //Sinon je chute
-        else 
+        else
             jumpSpeed -= fallSpeed * time;
         //Animation de rotation en l'air
         if (!IsGrounded())
             gameObject.transform.Rotate(Vector3.back * 5);
         //au sol j'arrondi pour que sa prite soit droite
-        else
-        {
+        else {
             Vector3 rotation = gameObject.transform.rotation.eulerAngles;
             rotation.z = Mathf.Round(rotation.z / 90) * 90;
             gameObject.transform.rotation = Quaternion.Euler(rotation);
         }
-        //Déplacement
-        rb.velocity = new Vector2(speed * time, jumpSpeed * time);
+    }
+    private void shipMovement() {
+        throw new NotImplementedException();
     }
     //Bind sur les touches pour "sauter"
     public void OnJump(InputAction.CallbackContext context)

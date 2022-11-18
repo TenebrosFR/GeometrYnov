@@ -9,7 +9,7 @@ public class Coin : MonoBehaviour
     [SerializeField] private GameManager gameManager;
 
     private void Start() {
-        gameManager = GameManager.Instance;
+        gameManager = GameManager.GameManagerInstance;
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.layer == 3) PlayerTookCoin();
