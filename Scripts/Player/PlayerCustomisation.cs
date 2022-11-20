@@ -9,13 +9,25 @@ public class PlayerCustomisation : MonoBehaviour
    [SerializeField] private Sprite[] skin;
    [SerializeField] private Sprite[] secondLayer;
    [SerializeField] private Sprite[] shadows;
-   [SerializeField] private SpriteRenderer spriteRenderer1;
-   [SerializeField] private SpriteRenderer spriteRenderer2;
-   [SerializeField] private SpriteRenderer spriteRenderer3;
-   private void Start()
+   [SerializeField] private SpriteRenderer FirstLayer;
+   [SerializeField] private SpriteRenderer SecondLayer;
+   [SerializeField] private SpriteRenderer ShadowLayer;
+   [SerializeField] private SpriteRenderer ShipLayer;
+   [SerializeField] private float shipScale;
+    private void Start()
    {
-      spriteRenderer1.sprite = skin[Random.Range(0, skin.Length)];
-      spriteRenderer2.sprite = secondLayer[Random.Range(0, secondLayer.Length)];
-      spriteRenderer3.sprite = shadows[Random.Range(0, shadows.Length)];
+      FirstLayer.sprite = skin[Random.Range(0, skin.Length)];
+      SecondLayer.sprite = secondLayer[Random.Range(0, secondLayer.Length)];
+      ShadowLayer.sprite = shadows[Random.Range(0, shadows.Length)];
    }
+    public void SwitchTo(string state) {
+        if (state == "cube") {
+            ShipLayer.gameObject.SetActive(false);
+            gameObject.transform.localScale = new Vector3(1,1,1);
+        }
+        if (state == "ship") {
+            ShipLayer.gameObject.SetActive(true);
+            gameObject.transform.localScale = new Vector3(shipScale, shipScale, 1);
+        }
+    }
 }

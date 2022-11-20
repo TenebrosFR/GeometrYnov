@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private PlayerDying dyingScript;
+    [SerializeField] private PlayerCustomisation skinScript;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float speed;
@@ -20,7 +21,14 @@ public class PlayerControl : MonoBehaviour
     private float time;
     //Changement d'état vol / sol    
     public string state = "cube";
-    public void ChangeState(string value) { state = value; jumpSpeed = 0;ResetRotation(); }
+    public void ChangeState(string value) { 
+        state = value; 
+        jumpSpeed = 0;
+        ResetRotation();
+        skinScript.SwitchTo(value);
+        if (value == "cube") distanceFromGround -= 0.125f;
+        if (value == "ship") distanceFromGround += 0.125f;
+    }
 
 
     private void FixedUpdate()
