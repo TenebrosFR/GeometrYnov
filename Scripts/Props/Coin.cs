@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Coin : MonoBehaviour
@@ -15,7 +13,7 @@ public class Coin : MonoBehaviour
         if (collision.gameObject.layer == 3) PlayerTookCoin();
     }
     private void PlayerTookCoin() {
-        gameManager.PlayerTookCoin(this);
+        GameManager.GameManagerInstance.PlayerTookCoin(this);
         sprite.enabled = false;
     }
 }

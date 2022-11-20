@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
@@ -18,7 +19,7 @@ public class PlayerControl : MonoBehaviour
     private float time;
     //Changement d'état vol / sol    
     public string state = "cube";
-    public void ChangeState(string value) { state = value; }
+    public void ChangeState(string value) { state = value; jumpSpeed = 0; }
 
 
     private void FixedUpdate()
@@ -27,8 +28,8 @@ public class PlayerControl : MonoBehaviour
         time = 30 * Time.fixedDeltaTime;
         if (state == "cube") cubeMovement();
         if (state == "ship") shipMovement();
-        //Déplacement
-        rb.velocity = new Vector2(speed * time, jumpSpeed * time);
+        //Déplacement, mutliplicateur de vitesse de saut si on est un vaisseau
+        rb.velocity = new Vector2(speed * time, jumpSpeed * time * (state=="ship" ? 1.1f : 1) );
     }
     private void cubeMovement() {
         //Si je suis au sol
@@ -53,7 +54,27 @@ public class PlayerControl : MonoBehaviour
         }
     }
     private void shipMovement() {
-        throw new NotImplementedException();
+        //Si je suis au sol et que je ne veux pas sauter
+        if (IsGrounded() && !isJumping)
+            //J'arrête de tomber si je suis au sol
+            jumpSpeed = 0;
+        //Sinon je chute
+        else if (!isJumping)
+            jumpSpeed -= fallSpeed * 0.75f * time;
+        //Sinon je m'envole doucement
+        else jumpSpeed += fallSpeed * 0.75f * time;
+        if (!IsGrounded()) {
+            if (isJumping)
+                rb.MoveRotation(rb.rotation * time);
+            else rb.MoveRotation(rb.rotation * -time);
+        }
+        //au sol j'arrondi pour que sa prite soit droite
+        else {
+            Vector3 rotation = gameObject.transform.rotation.eulerAngles;
+            rotation.z = Mathf.Round(rotation.z / 90) * 90;
+            gameObject.transform.rotation = Quaternion.Euler(rotation);
+        }
+
     }
     //Bind sur les touches pour "sauter"
     public void OnJump(InputAction.CallbackContext context)
@@ -65,12 +86,15 @@ public class PlayerControl : MonoBehaviour
             isJumping = false;
             return;
         }
-        //Si j'arrive ici et que je ne suis pas au sol je ne re saute pas (éviter le spam pour sauter plusieur fois)
-        if (!IsGrounded()) return;
+        //Si j'arrive ici et que je ne suis pas au sol je ne re saute pas (éviter le spam pour sauter plusieur fois) (vrai que si je suis en cube)
+        if (!IsGrounded() && state=="cube") return;
         //Sinon je suis "en train de sauter"
         isJumping = true;
-        jumpSpeed = jumpForce;
-        jumpCount++;
+        //Pour le mode avions je gère autrement la speed
+        if (state == "cube") {
+            jumpSpeed = jumpForce;
+            jumpCount++;
+        }
     }
 
     //Je raycast du centre de mon cube vers le sol pour savoir si il est assez proche du sol pour dire qu'il est "grounded"
