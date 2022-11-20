@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1152331748271084104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1378237015379101775}
+  m_Layer: 0
+  m_Name: Ship
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1378237015379101775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152331748271084104}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.24632233, y: 0.21081826, z: -0.0108567}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2069838030200276732}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1879392589910331929
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,6 +153,7 @@ Transform:
   m_Children:
   - {fileID: 1875367096183411276}
   - {fileID: 4500263591058410291}
+  - {fileID: 1378237015379101775}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -408,6 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00f4421f3e295fd48bcd03cf24fadb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dyingScript: {fileID: 1375686111402670500}
   groundMask:
     serializedVersion: 2
     m_Bits: 256
@@ -417,6 +450,7 @@ MonoBehaviour:
   fallSpeed: 3
   distanceFromGround: 0.5
   jumpSpeed: 0
+  state: cube
 --- !u!50 &2843699260051011764
 Rigidbody2D:
   serializedVersion: 4
