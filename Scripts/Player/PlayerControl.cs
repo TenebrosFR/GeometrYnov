@@ -11,10 +11,16 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private PlayerCustomisation skinScript;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Rigidbody2D rb;
+    //Rotation
+    [SerializeField] Vector2 minMaxAngle;
+    [SerializeField] Vector2 minMaxVelocity;
+    //Forces
+    [SerializeField] private float rotateSpeed;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallSpeed;
     [SerializeField] private float distanceFromGround;
+    [SerializeField] private float distanceFromCeiling;
     private bool isJumping;
     public float jumpSpeed = 0f;
     private int jumpCount = 0;
@@ -24,12 +30,11 @@ public class PlayerControl : MonoBehaviour
     public void ChangeState(string value) { 
         state = value; 
         jumpSpeed = 0;
-        ResetRotation();
+        ResetRotation(true);
         skinScript.SwitchTo(value);
-        if (value == "cube") distanceFromGround -= 0.125f;
-        if (value == "ship") distanceFromGround += 0.125f;
+        if (value == "cube") distanceFromGround -= 0.133f;
+        if (value == "ship") distanceFromGround += 0.133f;
     }
-
 
     private void FixedUpdate()
     {
@@ -55,7 +60,7 @@ public class PlayerControl : MonoBehaviour
             jumpSpeed -= fallSpeed * time;
         //Animation de rotation en l'air
         if (!IsGrounded())
-            gameObject.transform.Rotate(Vector3.back * 5);
+            gameObject.transform.Rotate(Vector3.back * rotateSpeed);
         //au sol j'arrondi pour que sa prite soit droite
         else {
             Vector3 rotation = gameObject.transform.rotation.eulerAngles;
@@ -64,8 +69,8 @@ public class PlayerControl : MonoBehaviour
         }
     }
     private void shipMovement() {
-        //Si je suis au sol et que je ne veux pas sauter
-        if (IsGrounded() && !isJumping)
+        //Si je suis au sol et que je ne veux pas sauter ou que je suis au plafond
+        if (IsRoofed() && isJumping || IsGrounded() && !isJumping)
             //J'arrête de tomber si je suis au sol
             jumpSpeed = 0;
         //Sinon je chute
@@ -73,37 +78,29 @@ public class PlayerControl : MonoBehaviour
             jumpSpeed -= fallSpeed * 0.75f * time;
         //Sinon je m'envole doucement si je ne suis pas au plafond
         else if (!IsRoofed()) jumpSpeed += fallSpeed * 0.75f * time;
-        //Si je suis au plafond je met ma vitesse de saut a 0 pour pas être ralenti par celui-ci
-        else jumpSpeed = 0;
         if (!IsGrounded() && !IsRoofed()) {
-            if (isJumping) {
-                Vector3 movement = new Vector3(speed, 0, jumpSpeed).normalized;
-                Quaternion targetRotation = Quaternion.LookRotation(movement);
-                targetRotation = Quaternion.RotateTowards(
-                                    transform.rotation,
-                                     targetRotation,
-                                        360 * Time.fixedDeltaTime);
-                Debug.Log(targetRotation);
-                rb.MoveRotation(targetRotation);
-            }
-            else {
-                Vector3 movement = new Vector3(speed, 0, jumpSpeed).normalized;
-                Quaternion targetRotation = Quaternion.LookRotation(movement);
-                targetRotation = Quaternion.RotateTowards(
-                                    transform.rotation,
-                                     targetRotation,
-                                        360 * Time.fixedDeltaTime);
-                Debug.Log(targetRotation);
-                rb.MoveRotation(targetRotation);
-            };
+            //Si je dépasse pas la rotation voulu de mon vaisseau
+            if (transform.rotation.z < 45 && transform.rotation.z > -45)
+                rb.rotation = jumpSpeed;
+            else
+                //Sinon je set la valeur max de la rotation
+                rb.rotation = (transform.rotation.z > 0) ? 45 : -45;
         }
         //au sol j'arrondi pour que sa prite soit droite
         else ResetRotation();
     }
-    private void ResetRotation() {
-        Vector3 rotation = gameObject.transform.rotation.eulerAngles;
-        rotation.z = Mathf.Round(rotation.z / 90) * 90;
-        gameObject.transform.rotation = Quaternion.Euler(rotation);
+    private void ResetRotation(bool total = false) {
+        if (!total) {
+            if (state == "cube") {
+                Vector3 rotation = gameObject.transform.rotation.eulerAngles;
+                rotation.z = Mathf.Round(rotation.z / 90) * 90;
+                gameObject.transform.rotation = Quaternion.Euler(rotation);
+            } 
+            //la rotation du vaisseau est fait sur une transition et est toujours basé sur un identity donc elle est a part
+            if(state=="ship") transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.identity,time/2);
+        }
+        //quand je change d'état je me remet a plat sur la rotation originale
+        else   gameObject.transform.rotation = Quaternion.identity;
     }
     //Bind sur les touches pour "sauter"
     public void OnJump(InputAction.CallbackContext context)
@@ -125,14 +122,13 @@ public class PlayerControl : MonoBehaviour
             jumpCount++;
         }
     }
-
     //Je raycast du centre de mon cube vers le sol pour savoir si il est assez proche du sol pour dire qu'il est "grounded"
     private bool IsGrounded()
     {
-        return Physics2D.Raycast(transform.position, Vector2.down, distanceFromGround + 0.05f,groundMask);
+        return Physics2D.Raycast(transform.position, Vector2.down, distanceFromGround + 0.1f, groundMask);
     }
     //Je raycast du centre de mon cube vers le plafond pour savoir si il est assez proche du plafond pour dire qu'il est "roofed"
     private bool IsRoofed() {
-        return Physics2D.Raycast(transform.position, Vector2.up, distanceFromGround + 0.05f, groundMask);
+        return Physics2D.Raycast(transform.position, Vector2.up, distanceFromCeiling + 0.1f, groundMask);
     }
 }

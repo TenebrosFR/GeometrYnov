@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1378237015379101775}
   - component: {fileID: 5239664161243210185}
-  - component: {fileID: 1353395990245951764}
+  - component: {fileID: 6954513595930885098}
   - component: {fileID: 3822800170880030128}
   - component: {fileID: 6310670504616520306}
   m_Layer: 0
@@ -87,8 +87,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1353395990245951764
-BoxCollider2D:
+--- !u!70 &6954513595930885098
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -100,19 +100,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.011439502, y: -0.08334482}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.591623}
-    newSize: {x: 1, y: 0.591623}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.9182893, y: 0.15692258}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.03, y: -0.11}
+  m_Size: {x: 0.7, y: 0.24}
+  m_Direction: 1
 --- !u!61 &3822800170880030128
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -126,7 +116,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0065368414, y: -0.0800764}
+  m_Offset: {x: -0.07408403, y: -0.0800764}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -137,7 +127,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9869263, y: 0.22882795}
+  m_Size: {x: 0.82568455, y: 0.22882795}
   m_EdgeRadius: 0
 --- !u!114 &6310670504616520306
 MonoBehaviour:
@@ -576,10 +566,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   rb: {fileID: 2843699260051011764}
+  minMaxAngle: {x: -45, y: 45}
+  minMaxVelocity: {x: 0, y: 2000}
+  rotateSpeed: 6
   speed: 20
-  jumpForce: 30
+  jumpForce: 25
   fallSpeed: 3
   distanceFromGround: 0.5
+  distanceFromCeiling: 0.5
   jumpSpeed: 0
   state: cube
 --- !u!50 &2843699260051011764
@@ -638,7 +632,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 2915147345387966796}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 92a004d35bf16ac4b906859c19ee9ff1, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Coin> tookCoin;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private RawImage background;
+    [SerializeField] private float startOffSet = 0.8f;
     private bool isPaused = false;
     private int deathCount = 0;
     //Player
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
     {
         audioSource.Play();
         deathCount++;
-        background.uvRect = new Rect(new Vector2(0, 0),background.uvRect.size);
+        background.uvRect = new Rect(new Vector2(background.uvRect.size.x*startOffSet, 0),background.uvRect.size);
         Playerinstance = Instantiate(playerPrefab, new Vector3(0, -0.625f, 0), Quaternion.identity);
     }
 
