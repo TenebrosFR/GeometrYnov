@@ -568,10 +568,10 @@ MonoBehaviour:
   rb: {fileID: 2843699260051011764}
   minMaxAngle: {x: -45, y: 45}
   minMaxVelocity: {x: 0, y: 2000}
-  rotateSpeed: 6
-  speed: 20
-  jumpForce: 25
-  fallSpeed: 3
+  rotateSpeed: 8
+  speed: 19
+  jumpForce: 30
+  fallSpeed: 5
   distanceFromGround: 0.5
   distanceFromCeiling: 0.5
   jumpSpeed: 0

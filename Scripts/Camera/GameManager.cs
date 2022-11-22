@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         audioSource.Play();
         deathCount++;
         background.uvRect = new Rect(new Vector2(background.uvRect.size.x*startOffSet, 0),background.uvRect.size);
-        Playerinstance = Instantiate(playerPrefab, new Vector3(0, -0.625f, 0), Quaternion.identity);
+        Playerinstance = Instantiate(playerPrefab, new Vector3(0, 0f, 0), Quaternion.identity);
     }
 
     public void OnPause(InputAction.CallbackContext context) {
