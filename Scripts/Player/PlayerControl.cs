@@ -21,7 +21,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float fallSpeed;
     [SerializeField] private float distanceFromGround;
     [SerializeField] private float distanceFromCeiling;
-    private bool isJumping;
+    public bool isJumping;
     public float jumpSpeed = 0f;
     private int jumpCount = 0;
     private float time;
@@ -34,6 +34,7 @@ public class PlayerControl : MonoBehaviour
         skinScript.SwitchTo(value);
         if (value == "cube") distanceFromGround -= 0.133f;
         if (value == "ship") distanceFromGround += 0.133f;
+        transform.position += Vector3.up*0.133f;
     }
 
     private void FixedUpdate()
@@ -50,6 +51,7 @@ public class PlayerControl : MonoBehaviour
         //Si je suis au sol
         if (IsGrounded()) {
             //Ternaire : Si je veux sauter en boucle (input pas lacher) je re saute sinon ma valeur de saut passe a 0
+            Debug.Log(IsGrounded());
             jumpSpeed = isJumping ? jumpForce : 0;
             //Si je veux re sauter je compte le saut
             if (isJumping)
@@ -76,7 +78,7 @@ public class PlayerControl : MonoBehaviour
         //Sinon je chute
         else if (!isJumping)
             jumpSpeed -= fallSpeed * 0.75f * time;
-        //Sinon je m'envole doucement si je ne suis pas au plafond
+        //Sinon je m'envole doucement si je ne suis pas au plafond et que je suis au sol et que je veux sauter
         else if (!IsRoofed()) jumpSpeed += fallSpeed * 0.75f * time;
         if (!IsGrounded() && !IsRoofed()) {
             //Si je dépasse pas la rotation voulu de mon vaisseau
@@ -112,15 +114,8 @@ public class PlayerControl : MonoBehaviour
             isJumping = false;
             return;
         }
-        //Si j'arrive ici et que je ne suis pas au sol je ne re saute pas (éviter le spam pour sauter plusieur fois) (vrai que si je suis en cube)
-        if (!IsGrounded() && state=="cube") return;
         //Sinon je suis "en train de sauter"
         isJumping = true;
-        //Pour le mode avions je gère autrement la speed
-        if (state == "cube") {
-            jumpSpeed = jumpForce;
-            jumpCount++;
-        }
     }
     //Je raycast du centre de mon cube vers le sol pour savoir si il est assez proche du sol pour dire qu'il est "grounded"
     private bool IsGrounded()

@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private RawImage background;
     [SerializeField] private float startOffSet = 0.8f;
+    [SerializeField] private Vector3 PlayerStart = new Vector3(0,0,0);
+    public float offsetY = 0;
     private bool isPaused = false;
     private int deathCount = 0;
     //Player
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
         //Si je n'est pas de player je vais en recrée un
         if (!Playerinstance) restartCurrentLevel();
         //Je suit le joueur
-        gameObject.transform.position = new Vector3(Playerinstance.transform.position.x+4,2.5f,-10);
+        gameObject.transform.position = new Vector3(Playerinstance.transform.position.x+4,2.8f+offsetY,-10);
     }
     //Réinitialise le niveau en cour
     private void restartCurrentLevel() {
@@ -49,7 +51,8 @@ public class GameManager : MonoBehaviour
         audioSource.Play();
         deathCount++;
         background.uvRect = new Rect(new Vector2(background.uvRect.size.x*startOffSet, 0),background.uvRect.size);
-        Playerinstance = Instantiate(playerPrefab, new Vector3(0, 0f, 0), Quaternion.identity);
+        offsetY = 0;
+        Playerinstance = Instantiate(playerPrefab, PlayerStart, Quaternion.identity);
     }
 
     public void OnPause(InputAction.CallbackContext context) {
