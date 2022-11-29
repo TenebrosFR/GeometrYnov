@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -8,7 +9,10 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _GameManagerInstance;
     public static GameManager GameManagerInstance { get { return _GameManagerInstance; } }
-
+    //ui
+    [SerializeField] private Slider LevelProgression;
+    [SerializeField] private TextMeshProUGUI Attempt;
+    //
     [SerializeField] private PlayerControl playerPrefab;
     [SerializeField] private List<Coin> tookCoin;
     [SerializeField] private AudioSource audioSource;
@@ -17,9 +21,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float cameraOffSet = 0;
     [SerializeField] private Vector3 PlayerStart = new Vector3(0,0,0);
     [SerializeField] public Camera Camera;
+    
     public float offsetY = 0;
     private bool isPaused = false;
-    private int deathCount = -1;
+    private int attemptCount = 0;
     //Player
     private PlayerControl Playerinstance;
     public PlayerControl GetPlayerInstance() { return Playerinstance; }
@@ -33,14 +38,18 @@ public class GameManager : MonoBehaviour
         //Si je n'est pas de player je vais en recrée un
         if (!Playerinstance) restartCurrentLevel();
         //Je suit le joueur
-        gameObject.transform.position = new Vector3(Playerinstance.transform.position.x+4,2.7f+offsetY,-10);
+        var currentPlayerX = Playerinstance.transform.position.x;
+        gameObject.transform.position = new Vector3(currentPlayerX + 4,2.7f+offsetY,-10);
+        //Calcul de la progression par rapport a la longueur du niveau
+        LevelProgression.value = Mathf.Max((currentPlayerX*100)/904,100);
     }
     //Réinitialise le niveau en cour
     private void restartCurrentLevel() {
         respawnPlayer();
         respawnCoins();
         offsetY = 0;
-        deathCount++;
+        attemptCount++;
+        Attempt.text = "Attempt " + attemptCount;
         Camera.fieldOfView = 65;
 
     }
