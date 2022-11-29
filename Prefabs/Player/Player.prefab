@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6954513595930885098}
   - component: {fileID: 3822800170880030128}
   - component: {fileID: 6310670504616520306}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03, y: -0.11}
+  m_Offset: {x: -0.03, y: -0.05}
   m_Size: {x: 0.7, y: 0.24}
   m_Direction: 1
 --- !u!61 &3822800170880030128
@@ -158,7 +158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1875367096183411276}
   - component: {fileID: 7741250466867860465}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpriteSecondLayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,7 +528,7 @@ MonoBehaviour:
   SecondLayer: {fileID: 7741250466867860465}
   ShadowLayer: {fileID: 1554396297336903132}
   ShipLayer: {fileID: 5239664161243210185}
-  shipScale: 0.75
+  shipScale: 0.55
 --- !u!114 &1375686111402670500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,6 +574,7 @@ MonoBehaviour:
   fallSpeed: 6.2
   distanceFromGround: 0.6
   distanceFromCeiling: 0.5
+  isJumping: 0
   jumpSpeed: 0
   state: cube
 --- !u!50 &2843699260051011764
@@ -699,7 +700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4500263591058410291}
   - component: {fileID: 1554396297336903132}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpriteShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

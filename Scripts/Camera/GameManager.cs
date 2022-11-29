@@ -14,10 +14,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private RawImage background;
     [SerializeField] private float startOffSet = 0.8f;
+    [SerializeField] private float cameraOffSet = 0;
     [SerializeField] private Vector3 PlayerStart = new Vector3(0,0,0);
+    [SerializeField] public Camera Camera;
     public float offsetY = 0;
     private bool isPaused = false;
-    private int deathCount = 0;
+    private int deathCount = -1;
     //Player
     private PlayerControl Playerinstance;
     public PlayerControl GetPlayerInstance() { return Playerinstance; }
@@ -31,12 +33,16 @@ public class GameManager : MonoBehaviour
         //Si je n'est pas de player je vais en recrée un
         if (!Playerinstance) restartCurrentLevel();
         //Je suit le joueur
-        gameObject.transform.position = new Vector3(Playerinstance.transform.position.x+4,2.8f+offsetY,-10);
+        gameObject.transform.position = new Vector3(Playerinstance.transform.position.x+4,2.7f+offsetY,-10);
     }
     //Réinitialise le niveau en cour
     private void restartCurrentLevel() {
         respawnPlayer();
         respawnCoins();
+        offsetY = 0;
+        deathCount++;
+        Camera.fieldOfView = 65;
+
     }
     //Refait apparaitre les pièces
     private void respawnCoins() {
@@ -49,9 +55,7 @@ public class GameManager : MonoBehaviour
     private void respawnPlayer()
     {
         audioSource.Play();
-        deathCount++;
         background.uvRect = new Rect(new Vector2(background.uvRect.size.x*startOffSet, 0),background.uvRect.size);
-        offsetY = 0;
         Playerinstance = Instantiate(playerPrefab, PlayerStart, Quaternion.identity);
     }
 

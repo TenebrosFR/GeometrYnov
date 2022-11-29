@@ -32,8 +32,8 @@ public class PlayerControl : MonoBehaviour
         jumpSpeed = 0;
         ResetRotation(true);
         skinScript.SwitchTo(value);
-        if (value == "cube") distanceFromGround -= 0.133f;
-        if (value == "ship") distanceFromGround += 0.133f;
+        if (value == "cube") distanceFromGround -= 0f;
+        if (value == "ship") distanceFromGround += 0f;
         transform.position += Vector3.up*0.133f;
     }
 
@@ -42,7 +42,7 @@ public class PlayerControl : MonoBehaviour
         //Pour éviter d'avoir a l'écrire avec *30 a chaque fois
         time = 30 * Time.fixedDeltaTime;
         if (state == "cube") cubeMovement();
-        if (state == "ship") shipMovement();
+        else if (state == "ship") shipMovement();
         //Déplacement, mutliplicateur de vitesse de saut si on est un vaisseau
         rb.velocity = new Vector2(speed * time, jumpSpeed * time * (state=="ship" ? 1.1f : 1) );
     }
@@ -51,7 +51,6 @@ public class PlayerControl : MonoBehaviour
         //Si je suis au sol
         if (IsGrounded()) {
             //Ternaire : Si je veux sauter en boucle (input pas lacher) je re saute sinon ma valeur de saut passe a 0
-            Debug.Log(IsGrounded());
             jumpSpeed = isJumping ? jumpForce : 0;
             //Si je veux re sauter je compte le saut
             if (isJumping)
@@ -75,11 +74,15 @@ public class PlayerControl : MonoBehaviour
         if (IsRoofed() && isJumping || IsGrounded() && !isJumping)
             //J'arrête de tomber si je suis au sol
             jumpSpeed = 0;
-        //Sinon je chute
-        else if (!isJumping)
-            jumpSpeed -= fallSpeed * 0.75f * time;
+        //Sinon je chute (je réinitialise la force si avant je montais et que maintenant je tombe
+        else if (!isJumping) {
+            jumpSpeed -= fallSpeed * 0.33f * time;
+        }
         //Sinon je m'envole doucement si je ne suis pas au plafond et que je suis au sol et que je veux sauter
-        else if (!IsRoofed()) jumpSpeed += fallSpeed * 0.75f * time;
+        else if (!IsRoofed()) {
+            if(jumpSpeed < 0 ) jumpSpeed = 1;
+            else jumpSpeed += fallSpeed * 0.33f * time;
+        }
         if (!IsGrounded() && !IsRoofed()) {
             //Si je dépasse pas la rotation voulu de mon vaisseau
             if (transform.rotation.z < 45 && transform.rotation.z > -45)

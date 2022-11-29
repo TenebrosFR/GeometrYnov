@@ -7,7 +7,11 @@ public class ChangeCameraLevel : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] float offset = 0;
 
+    private void Start() {
+        gameManager = GameManager.GameManagerInstance;
+    }
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.gameObject.layer == 3) gameManager.offsetY += offset;
+        //Si le joueur rentré je lui met l'offset programmé
+        if (collision.gameObject.layer == 3)    gameManager.offsetY = offset;
     }
 }
