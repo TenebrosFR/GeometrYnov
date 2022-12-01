@@ -3,7 +3,7 @@ using UnityEngine;
 public class Coin : MonoBehaviour
 {
     public SpriteRenderer sprite;
-    [SerializeField] private int index;
+    [SerializeField] public int index;
     [SerializeField] private GameManager gameManager;
 
     private void Start() {
@@ -14,6 +14,6 @@ public class Coin : MonoBehaviour
     }
     private void PlayerTookCoin() {
         GameManager.GameManagerInstance.PlayerTookCoin(this);
-        sprite.enabled = false;
+        gameObject.SetActive(false);
     }
 }

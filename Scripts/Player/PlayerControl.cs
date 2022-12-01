@@ -23,7 +23,6 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float distanceFromCeiling;
     public bool isJumping;
     public float jumpSpeed = 0f;
-    private int jumpCount = 0;
     private float time;
     //Changement d'état vol / sol    
     public string state = "cube";
@@ -36,7 +35,9 @@ public class PlayerControl : MonoBehaviour
         if (value == "ship") distanceFromGround += 0f;
         transform.position += Vector3.up*0.133f;
     }
-
+    private void Start() {
+        rb.velocity = new Vector2(1,0);
+    }
     private void FixedUpdate()
     {
         //Pour éviter d'avoir a l'écrire avec *30 a chaque fois
@@ -44,6 +45,7 @@ public class PlayerControl : MonoBehaviour
         if (state == "cube") cubeMovement();
         else if (state == "ship") shipMovement();
         //Déplacement, mutliplicateur de vitesse de saut si on est un vaisseau
+        if (rb.velocity.x < 1) StartCoroutine(dyingScript.Die());
         rb.velocity = new Vector2(speed * time, jumpSpeed * time * (state=="ship" ? 1.1f : 1) );
     }
     private void cubeMovement() {
@@ -54,7 +56,7 @@ public class PlayerControl : MonoBehaviour
             jumpSpeed = isJumping ? jumpForce : 0;
             //Si je veux re sauter je compte le saut
             if (isJumping)
-                jumpCount++;
+                GameManager.GameManagerInstance.totalJump++;
         }
         //Sinon je chute
         else

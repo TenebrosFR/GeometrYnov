@@ -6,9 +6,6 @@ using Random = UnityEngine.Random;
 
 public class PlayerCustomisation : MonoBehaviour
 {
-   [SerializeField] private Sprite[] skin;
-   [SerializeField] private Sprite[] secondLayer;
-   [SerializeField] private Sprite[] shadows;
    [SerializeField] private SpriteRenderer FirstLayer;
    [SerializeField] private SpriteRenderer SecondLayer;
    [SerializeField] private SpriteRenderer ShadowLayer;
@@ -16,10 +13,10 @@ public class PlayerCustomisation : MonoBehaviour
    [SerializeField] private float shipScale;
     private void Start()
    {
-      FirstLayer.sprite = skin[Random.Range(0, skin.Length)];
-      SecondLayer.sprite = secondLayer[Random.Range(0, secondLayer.Length)];
-      ShadowLayer.sprite = shadows[Random.Range(0, shadows.Length)];
-   }
+        FirstLayer.sprite = ApplicationData.PlayerSkin[0];
+        SecondLayer.sprite = ApplicationData.PlayerSkin[1];
+        ShadowLayer.sprite = ApplicationData.PlayerSkin[2];
+    }
     public void SwitchTo(string state) {
         if (state == "cube") {
             ShipLayer.gameObject.SetActive(false);
