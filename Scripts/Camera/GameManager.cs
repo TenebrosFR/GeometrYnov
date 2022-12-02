@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] public List<Coin> tookCoin;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private RawImage background;
+    [SerializeField] private Tilemap ground;
     [SerializeField] private float startOffSet = 0.8f;
     [SerializeField] private Vector3 PlayerStart = new Vector3(0, 0, 0);
     [SerializeField] public Camera Camera;
@@ -45,16 +47,20 @@ public class GameManager : MonoBehaviour {
     private void OnEnable() {
         StartTime = DateTime.Now;
     }
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
+        if(ground)ground.color = Color.Lerp(Color.blue, Color.red, Mathf.PingPong(Time.time, 60) / 60);
+        if(background)background.color = Color.Lerp(Color.blue, Color.red, Mathf.PingPong(Time.time, 60) / 60);
         //Si je n'est pas de player je vais en recrée un
         if (!Playerinstance) restartCurrentLevel();
         //Je suit le joueur
         var currentPlayerX = Playerinstance.transform.position.x;
-        gameObject.transform.position = new Vector3(currentPlayerX + 4,2.7f+offsetY,-10);
-        //Calcul de la progression par rapport a la longueur du niveau
-        LevelProgression.value = Mathf.Min((currentPlayerX*100)/904,100);
-        if (ApplicationData.levels[currentLevel].normalCompletionPercent < Mathf.Round(LevelProgression.value)) ApplicationData.levels[currentLevel].normalCompletionPercent = Mathf.Round(LevelProgression.value);
+        gameObject.transform.position = new Vector3(currentPlayerX + 4, 2.7f + offsetY, -10);
+        if (LevelProgression) {
+            //Calcul de la progression par rapport a la longueur du niveau
+            LevelProgression.value = Mathf.Min((currentPlayerX * 100) / 904, 100);
+            if (ApplicationData.levels[currentLevel].normalCompletionPercent < Mathf.Round(LevelProgression.value)) ApplicationData.levels[currentLevel].normalCompletionPercent = Mathf.Round(LevelProgression.value);
+
+        }
     }
     //Réinitialise le niveau en cour
     public void restartCurrentLevel(bool resetTimer = false) {
@@ -62,9 +68,11 @@ public class GameManager : MonoBehaviour {
         if (!isPaused && Time.timeScale == 0) Time.timeScale = 1;
         respawnPlayer();
         respawnCoins();
+        if (ground) ground.color = Color.blue;
+        if (background) background.color = Color.blue;
         offsetY = 0;
         attemptCount++;
-        Attempt.text = "Attempt " + attemptCount;
+        if(Attempt)Attempt.text = "Attempt " + attemptCount;
         Camera.fieldOfView = 65;
 
     }
@@ -82,7 +90,7 @@ public class GameManager : MonoBehaviour {
         if (Playerinstance) Destroy(Playerinstance.gameObject);
         audioSource.Play();
         background.uvRect = new Rect(new Vector2(background.uvRect.size.x*startOffSet, 0),background.uvRect.size);
-        Playerinstance = Instantiate(playerPrefab, PlayerStart, Quaternion.identity);
+        Playerinstance = Instantiate(playerPrefab, PlayerStart, Quaternion.identity,transform.parent) ;
     }
 
     public void OnPause(InputAction.CallbackContext context) {
