@@ -49,7 +49,7 @@ public class PlayerControl : MonoBehaviour
         rb.velocity = new Vector2(speed * time, jumpSpeed * time * (state=="ship" ? 1.1f : 1) );
     }
     private void cubeMovement() {
-        if(IsRoofed()) StartCoroutine(dyingScript.Die());
+        if(IsRoofed() && rb.simulated == false) StartCoroutine(dyingScript.Die());
         //Si je suis au sol
         if (IsGrounded()) {
             //Ternaire : Si je veux sauter en boucle (input pas lacher) je re saute sinon ma valeur de saut passe a 0

@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class LoadNewSkin : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI text;
-    private int Main = 0;
-    private int Second = 0;
-    private int Shadow = 0;
+    private static int Main = 0;
+    private static int Second = 0;
+    private static int Shadow = 0;
 
     public void ChangeMainSkin(int value) {
         Main += value;

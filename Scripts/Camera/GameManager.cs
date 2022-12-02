@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
+    [SerializeField] private int currentLevel = 1;
     private static GameManager _GameManagerInstance;
     public static GameManager GameManagerInstance { get { return _GameManagerInstance; } }
     //ui
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour {
     public PlayerControl GetPlayerInstance() { return Playerinstance; }
     void Awake()
     {
+        if (!isPaused && Time.timeScale == 0) Time.timeScale = 1;
         _GameManagerInstance = this;
         audioSource.Play();
     }
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour {
         gameObject.transform.position = new Vector3(currentPlayerX + 4,2.7f+offsetY,-10);
         //Calcul de la progression par rapport a la longueur du niveau
         LevelProgression.value = Mathf.Min((currentPlayerX*100)/904,100);
+        if (ApplicationData.levels[currentLevel].normalCompletionPercent < Mathf.Round(LevelProgression.value)) ApplicationData.levels[currentLevel].normalCompletionPercent = Mathf.Round(LevelProgression.value);
     }
     //Réinitialise le niveau en cour
     public void restartCurrentLevel(bool resetTimer = false) {

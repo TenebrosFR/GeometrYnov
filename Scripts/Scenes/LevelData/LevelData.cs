@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelData {
     public Sprite[] Stars = new Sprite[3];
-    LevelData(Sprite Empty) {
+    public float normalCompletionPercent = 0;
+    public float practiceCompletionPercent = 0;
+    public LevelData(Sprite Empty) {
         //Je set les images sur vide vu que je n'ai pas de sauvegarde
-        //foreach (var i = 0;i < 3;i++) coin.Value = Empty;
+        for(var i = 0; i < Stars.Length; i++) if(!Stars[i]) Stars[i] = Empty;
     }      
 }

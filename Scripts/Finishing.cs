@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Finishing : MonoBehaviour
 {
+    [SerializeField] LoadLevelData levelDataManager;
     [SerializeField] TextMeshProUGUI[] textes;
     [SerializeField] Canvas EndMenu;
     [SerializeField] Image Sign;
@@ -28,8 +29,13 @@ public class Finishing : MonoBehaviour
             Sign.rectTransform.offsetMin = Vector2.Lerp(Sign.rectTransform.offsetMin, Vector2.zero,10);
             Sign.rectTransform.offsetMax = Vector2.Lerp(Sign.rectTransform.offsetMax, Vector2.zero, 10);
             //Set les Images
+            foreach (var img in Stars)
+                img.sprite = Empty;
             //Les étoiles ramasser on l'image pleine
-            foreach (var coinTaken in GameManager.GameManagerInstance.tookCoin) Stars[coinTaken.index].sprite = Loaded;
+            foreach (var coinTaken in GameManager.GameManagerInstance.tookCoin) {
+                Stars[coinTaken.index].sprite = Loaded;
+                ApplicationData.levels[1].Stars[coinTaken.index] = Loaded;
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision) {
