@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour {
     //EndGameResult
     public string[] Result() {
         string seconds = (DateTime.Now - StartTime).Seconds < 10 ? "0"+(DateTime.Now - StartTime).Seconds : (DateTime.Now - StartTime).Seconds.ToString();
-        string formatedTime = ((DateTime.Now - StartTime).Seconds / 60).ToString() + " : " +seconds ;
+        string formatedTime = ((DateTime.Now - StartTime).Minutes).ToString() + " : " +seconds ;
         string[] resultData = { tookCoin.Count.ToString(), totalJump.ToString(), formatedTime };
         return resultData; 
     }
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour {
         if(ground)ground.color = Color.Lerp(ground.color, Color.red, Mathf.PingPong(Time.time, 60) / 75000);
         if(background)background.color = Color.Lerp(background.color, Color.red, Mathf.PingPong(Time.time, 60) / 75000);
         //Si je n'est pas de player je vais en recrée un
-        if (!Playerinstance) restartCurrentLevel();
+        if (!Playerinstance) restartCurrentLevel(true);
         //Je suit le joueur
         var currentPlayerX = Playerinstance.transform.position.x;
         transform.position = Vector3.Lerp(transform.position, new Vector3(currentPlayerX + 4, 2.7f + offsetY, -10),0.1f);
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
     {
         //Quand on fini le niveau et qu'on veut rejouer
         if (Playerinstance) Destroy(Playerinstance.gameObject);
-        audioSource.Play();
+        if (audioSource) audioSource.Play();
         background.uvRect = new Rect(new Vector2(background.uvRect.size.x*startOffSet, 0),background.uvRect.size);
         Playerinstance = Instantiate(playerPrefab, PlayerStart, Quaternion.identity,transform.parent) ;
     }
