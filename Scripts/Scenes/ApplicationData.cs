@@ -18,6 +18,7 @@ public class ApplicationData : MonoBehaviour
     public static LevelData[] levels = new LevelData[14];
 
     private void Start() {
+        //Set les statics
         if (SMainSkin == null) {
             for (var i = 0; i < levels.Length; i++) levels[i] = new LevelData(Empty);
             SMainSkin = MainSkin;

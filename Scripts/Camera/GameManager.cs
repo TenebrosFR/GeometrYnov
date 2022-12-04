@@ -6,12 +6,14 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] private int currentLevel = 1;
     private static GameManager _GameManagerInstance;
     public static GameManager GameManagerInstance { get { return _GameManagerInstance; } }
     //ui
+    [SerializeField] private Canvas Pause;
     [SerializeField] private Slider LevelProgression;
     [SerializeField] private TextMeshProUGUI Attempt;
     //
@@ -29,8 +31,8 @@ public class GameManager : MonoBehaviour {
     public string[] Result() {
         string seconds = (DateTime.Now - StartTime).Seconds < 10 ? "0"+(DateTime.Now - StartTime).Seconds : (DateTime.Now - StartTime).Seconds.ToString();
         string formatedTime = ((DateTime.Now - StartTime).Seconds / 60).ToString() + " : " +seconds ;
-        string[] array = { tookCoin.Count.ToString(), totalJump.ToString(), formatedTime };
-        return array ; 
+        string[] resultData = { tookCoin.Count.ToString(), totalJump.ToString(), formatedTime };
+        return resultData; 
     }
     public float offsetY = 0;
     private bool isPaused = false;
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour {
     public PlayerControl GetPlayerInstance() { return Playerinstance; }
     void Awake()
     {
+        //Je passe dans ce if si j'ai fini une partie que je retourne au menu principal et que je reviens
         if (!isPaused && Time.timeScale == 0) Time.timeScale = 1;
         _GameManagerInstance = this;
         audioSource.Play();
@@ -48,24 +51,24 @@ public class GameManager : MonoBehaviour {
         StartTime = DateTime.Now;
     }
     private void FixedUpdate() {
-        if(ground)ground.color = Color.Lerp(Color.blue, Color.red, Mathf.PingPong(Time.time, 60) / 60);
-        if(background)background.color = Color.Lerp(Color.blue, Color.red, Mathf.PingPong(Time.time, 60) / 60);
+        if(ground)ground.color = Color.Lerp(ground.color, Color.red, Mathf.PingPong(Time.time, 60) / 75000);
+        if(background)background.color = Color.Lerp(background.color, Color.red, Mathf.PingPong(Time.time, 60) / 75000);
         //Si je n'est pas de player je vais en recrée un
         if (!Playerinstance) restartCurrentLevel();
         //Je suit le joueur
         var currentPlayerX = Playerinstance.transform.position.x;
-        gameObject.transform.position = new Vector3(currentPlayerX + 4, 2.7f + offsetY, -10);
+        transform.position = Vector3.Lerp(transform.position, new Vector3(currentPlayerX + 4, 2.7f + offsetY, -10),0.1f);
         if (LevelProgression) {
             //Calcul de la progression par rapport a la longueur du niveau
             LevelProgression.value = Mathf.Min((currentPlayerX * 100) / 904, 100);
             if (ApplicationData.levels[currentLevel].normalCompletionPercent < Mathf.Round(LevelProgression.value)) ApplicationData.levels[currentLevel].normalCompletionPercent = Mathf.Round(LevelProgression.value);
-
         }
     }
     //Réinitialise le niveau en cour
     public void restartCurrentLevel(bool resetTimer = false) {
         if (resetTimer) StartTime = DateTime.Now;
-        if (!isPaused && Time.timeScale == 0) Time.timeScale = 1;
+        if (isPaused) SwitchPause();
+        transform.position = new Vector3(4, 2.7f, -10);
         respawnPlayer();
         respawnCoins();
         if (ground) ground.color = Color.blue;
@@ -95,18 +98,21 @@ public class GameManager : MonoBehaviour {
 
     public void OnPause(InputAction.CallbackContext context) {
         if (!context.performed) return;
+        SwitchPause();
+    }
+    public void SwitchPause() {
         isPaused = !isPaused;
         if (isPaused) {
             Time.timeScale = 0;
             audioSource.Pause();
+            Pause.gameObject.SetActive(true);
         }
         else {
             Time.timeScale = 1;
             audioSource.Play();
+            Pause.gameObject.SetActive(false);
         }
-        
     }
-
     public void PlayerTookCoin(Coin newTakenCoin) {
         if(!tookCoin.Contains(newTakenCoin)) tookCoin.Add(newTakenCoin);
     }

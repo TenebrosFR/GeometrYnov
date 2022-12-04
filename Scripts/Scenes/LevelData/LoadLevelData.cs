@@ -12,13 +12,6 @@ public class LoadLevelData : MonoBehaviour
     [SerializeField] private Slider LevelProgression;
     [SerializeField] private Slider PracticeLevelProgression;
 
-    public void ChangeLevelProgression(float result) {
-        if (result > ApplicationData.levels[currentLevel].normalCompletionPercent)
-            ApplicationData.levels[currentLevel].normalCompletionPercent = result;
-    }
-    public void StarCollected(int index,Sprite sprite) {
-        ApplicationData.levels[currentLevel].Stars[index] = sprite;
-    }
     public void Start() {
         if (text) {
             text.text = ApplicationData.levels[currentLevel].normalCompletionPercent.ToString() + "%";
@@ -26,13 +19,16 @@ public class LoadLevelData : MonoBehaviour
         }
     }
     private void FixedUpdate() {
+        //Change les étoiles qui ont été rammasser si il y en a de ramasser
         for (var i = 0; i < Stars.Length; i++) {
             if (Stars[i].sprite != ApplicationData.levels[currentLevel].Stars[i])
                 Stars[i].sprite = ApplicationData.levels[currentLevel].Stars[i];
         }
+        Debug.Log(LevelProgression.value);
+        //Change les valeurs du slider du lvl si elle ont changer
         if (LevelProgression.value != ApplicationData.levels[currentLevel].normalCompletionPercent) {
             LevelProgression.value = ApplicationData.levels[currentLevel].normalCompletionPercent;
-            text.text = ApplicationData.levels[currentLevel].normalCompletionPercent.ToString() + "%";
+            if(text)text.text = ApplicationData.levels[currentLevel].normalCompletionPercent.ToString() + "%";
         }
     }
 }
