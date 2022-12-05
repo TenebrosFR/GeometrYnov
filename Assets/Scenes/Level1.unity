@@ -54234,7 +54234,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1920, y: 1080}
+  m_AnchoredPosition: {x: 1919.99, y: 1080.03}
   m_SizeDelta: {x: 3840, y: 2160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1171282505
@@ -94075,6 +94075,14 @@ PrefabInstance:
       propertyPath: Attempt
       value: 
       objectReference: {fileID: 1549445383}
+    - target: {fileID: 6583920592190266573, guid: 35788caecd0d24b4dacb0b932d65185b, type: 3}
+      propertyPath: PlayerStart.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583920592190266573, guid: 35788caecd0d24b4dacb0b932d65185b, type: 3}
+      propertyPath: PlayerStart.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6583920592190266573, guid: 35788caecd0d24b4dacb0b932d65185b, type: 3}
       propertyPath: LevelProgression
       value: 
